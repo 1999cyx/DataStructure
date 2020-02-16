@@ -147,6 +147,7 @@ int main() {
         cout << "Ñ¡Ôñ¹¦ÄÜ£º";
         cin >> sel;
         Realization(sel);
+        cout<<endl;
         if (sel == 0)
             break;
     }

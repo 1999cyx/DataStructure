@@ -78,6 +78,7 @@ inline LinkList<T>::LinkList() {
     head = new LinkNode<T>();
 }
 
+//析构函数
 template<class T>
 inline LinkList<T>::~LinkList() {
     delete_link();
@@ -199,7 +200,7 @@ inline bool LinkList<T>::pop_node_data(T x) {
     return false;
 }
 
-//删除第pos个数据
+//删除第pos个结点
 template<class T>
 inline bool LinkList<T>::pop_node_cur(int pos) {
     if (pos <= length() && pos > 0)      //存在第pos个数据
@@ -294,7 +295,7 @@ inline bool LinkList<T>::get_data(T &x, int pos) {
     return false;
 }
 
-//修改单链表中头的数据
+//修改单链表头的数据
 template<class T>
 inline void LinkList<T>::change_first_data(T p) {
     LinkNode<T> *temp;
@@ -336,6 +337,7 @@ inline bool LinkList<T>::change_node_cur(T p, int pos) {
     return false;
 }
 
+//查找单链表数据为p的结点
 template<class T>
 inline LinkNode<T> *LinkList<T>::search(T p) {
     LinkNode<T> *q = head;
@@ -348,6 +350,7 @@ inline LinkNode<T> *LinkList<T>::search(T p) {
     return NULL;   //未找到，返回NULL
 }
 
+//查找单链表数据为p的结点的前驱节点
 template<class T>
 inline LinkNode<T> *LinkList<T>::search_prev(T p) {
     LinkNode<T> *q = head;
@@ -360,6 +363,7 @@ inline LinkNode<T> *LinkList<T>::search_prev(T p) {
     return NULL;   //未找到，返回NULL
 }
 
+//查找单链表数据为p的结点的后续节点
 template<class T>
 inline LinkNode<T> *LinkList<T>::search_next(const T p) {
     LinkNode<T> *q = head;
@@ -408,12 +412,11 @@ inline void LinkList<T>::print() {
 //摧毁单链表
 template<class T>
 inline void LinkList<T>::delete_link() {
-    LinkNode<T> *q = head;
-
     LinkNode<T> *temp;
-    while (q != NULL) {
-        temp = q;
-        q = q->next;
+
+    while(head->next != NULL) {
+        temp = head->next;
+        head->next = temp->next;
         delete temp;
     }
 }

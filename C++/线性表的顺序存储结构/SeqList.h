@@ -30,7 +30,7 @@ public:
     void change_last(T p);                   //修改顺序表尾数据
     bool change_pos(int pos, T p);           //修改顺序表第pos个数据
     bool get_first(T &p);                    //得到顺序表头数据
-    bool get_last(T &p);                     //得到顺序表为数据
+    bool get_last(T &p);                     //得到顺序表尾数据
     bool get_pos(int pos, T &p);             //得到顺序表第pos个数据
     int search(T p);                         //返回顺序表中p相同的第一个元素的下标pos，若不存在则返回-1
     bool isEmpty();                          //判断顺序表是否为空
@@ -151,7 +151,7 @@ void SeqList<T>::pop_last() {
 //删除顺序表第pos个数据
 template<class T>
 bool SeqList<T>::pop_pos(int pos) {
-    if (pos > last || pos <= 0)      //不存在第pos个数据
+        if (pos > last || pos <= 0)      //不存在第pos个数据
         return false;
 
     for (int i = pos - 1; i < last - 1; i++)       //从第pos个数据开始全部前移一位
@@ -195,7 +195,7 @@ bool SeqList<T>::get_first(T &p) {
     return true;
 }
 
-//得到顺序表为数据
+//得到顺序表尾数据
 template<class T>
 bool SeqList<T>::get_last(T &p) {
     if (isEmpty())        //空表直接返回
