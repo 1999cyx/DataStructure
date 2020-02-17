@@ -1,6 +1,6 @@
 /*
         @作者:        CYX
-        @文件:        CircularLinkList.cpp
+        @文件:        CircularLinkList.h
         @时间:        2020/2/14 20:22
 */
 
@@ -47,29 +47,29 @@ private:
     LinkNode<T> *rear;
 
 public:
-    CircularLinkList();                                      //构造函数
-    CircularLinkList(CircularLinkList<T> &list);             //拷贝构造函数
-    ~CircularLinkList();                                     //析构函数
-    void append_first(T p);                                  //头插法，在循环链表头插入数据
-    void append_last(T p);                                   //尾插法，在循环链表尾插入数据
-    bool append_pos(int pos, T p);                           //在循环链表第pos个位置插入数据
-    void pop_first();                                        //删除循环链表头数据
-    void pop_last();                                         //删除循环链表尾数据
-    bool pop_pos(int pos);                                   //删除循环链表中第pos个数据
-    void change_first(T p);                                  //修改循环链表头数据
-    void change_last(T p);                                   //修改循环链表尾数据
-    bool change_pos(int pos, T p);                           //修改循环链表中第pos个数据
-    bool get_first_node(LinkNode<T> *&p);                    //得到循环链表头结点
-    bool get_last_node(LinkNode<T> *&p);                     //得到循环链表尾结点
-    bool get_pos_node(int pos, LinkNode<T> *&p);             //得到循环链表中第pos个结点
-    bool get_first_data(T &p);                               //得到循环链表头数据
-    bool get_last_data(T &p);                                //得到循环链表尾数据
-    bool get_pos_data(int pos, T &p);                        //得到循环链表中第pos个数据
-    int search(T p);                                         //返回循环链表中p相同的第一个元素的下标pos，若不存在则返回-1
-    bool isEmpty();                                          //判断循环链表是否为空
-    int length();                                            //返回循环链表的长度
-    void print();                                            //打印循环链表
-    void clear();                                            //清空循环链表
+    CircularLinkList();                                //构造函数
+    CircularLinkList(CircularLinkList<T> &list);       //拷贝构造函数
+    ~CircularLinkList();                               //析构函数
+    void append_first(T p);                            //头插法，在循环链表头插入数据
+    void append_last(T p);                             //尾插法，在循环链表尾插入数据
+    bool append_pos(int pos, T p);                     //在循环链表第pos个位置插入数据
+    void pop_first();                                  //删除循环链表头数据
+    void pop_last();                                   //删除循环链表尾数据
+    bool pop_pos(int pos);                             //删除循环链表中第pos个数据
+    void change_first(T p);                            //修改循环链表头数据
+    void change_last(T p);                             //修改循环链表尾数据
+    bool change_pos(int pos, T p);                     //修改循环链表中第pos个数据
+    bool get_first_node(LinkNode<T> *&p);              //得到循环链表头结点
+    bool get_last_node(LinkNode<T> *&p);               //得到循环链表尾结点
+    bool get_pos_node(int pos, LinkNode<T> *&p);       //得到循环链表中第pos个结点
+    bool get_first_data(T &p);                         //得到循环链表头数据
+    bool get_last_data(T &p);                          //得到循环链表尾数据
+    bool get_pos_data(int pos, T &p);                  //得到循环链表中第pos个数据
+    int search(T p);                                   //返回循环链表中p相同的第一个元素的下标pos，若不存在则返回-1
+    bool isEmpty();                                    //判断循环链表是否为空
+    int length();                                      //返回循环链表的长度
+    void print();                                      //打印循环链表
+    void clear();                                      //清空循环链表
 };
 
 //构造函数
@@ -84,7 +84,19 @@ CircularLinkList<T>::CircularLinkList() {
 //拷贝构造函数
 template<class T>
 CircularLinkList<T>::CircularLinkList(CircularLinkList<T> &list) {
+    head = new LinkNode<T>();
+    rear = new LinkNode<T>();
+    head->next = head;
+    rear = head;
 
+    LinkNode<T> *q;
+    if (!list.get_first_node(q))
+        return;
+    while (q != list.rear) {
+        append_last(q->data);
+        q = q->next;
+    }
+    append_last(q->data);
 }
 
 //析构函数
@@ -127,58 +139,6 @@ void CircularLinkList<T>::append_last(T p) {
         temp->next = head->next;
         rear = temp;
     }
-}
-
-//判断循环链表是否为空
-template<class T>
-bool CircularLinkList<T>::isEmpty() {
-    return head->next == head;
-}
-
-//返回循环链表的长度
-template<class T>
-int CircularLinkList<T>::length() {
-    int len = 0;
-    if (isEmpty())           //空链表时返回0
-        return 0;
-
-    LinkNode<T> *p = head;
-    while (p != rear) {
-        len++;
-        p = p->next;
-    }
-    return len;
-}
-
-//打印循环链表
-template<class T>
-void CircularLinkList<T>::print() {
-    if (isEmpty())
-        return;
-    LinkNode<T> *p = head->next;
-    while (p != rear) {
-        cout << p->data << " ---> ";
-        p = p->next;
-    }
-    cout << p->data << endl;
-}
-
-//清空循环链表
-template<class T>
-void CircularLinkList<T>::clear() {
-    if(isEmpty())
-        return;
-
-    LinkNode<T> *temp;
-
-    while (head->next != rear) {
-        temp = head->next;
-        head->next = temp->next;
-        delete temp;
-    }
-    delete head->next;
-    head->next = head;
-    rear = head;
 }
 
 //在循环链表第pos个位置插入数据
@@ -239,7 +199,7 @@ void CircularLinkList<T>::pop_last() {
         LinkNode<T> *temp;
 
         LinkNode<T> *q = head->next;
-        while(q->next != rear)        //循环得到尾结点的前驱节点
+        while (q->next != rear)        //循环得到尾结点的前驱节点
             q = q->next;
 
         rear = q;
@@ -255,17 +215,16 @@ bool CircularLinkList<T>::pop_pos(int pos) {
     if (pos <= 0 || pos > length())   //不存在指定位置
         return false;
     //pos == 1即删除首结点
-    if(pos == 1)
+    if (pos == 1)
         pop_first();
-    //pos == length()即删除尾结点
-    else if(pos == length())
+        //pos == length()即删除尾结点
+    else if (pos == length())
         pop_last();
-    else
-    {
+    else {
         LinkNode<T> *temp;
         //循环得到待删除结点的前驱节点
         LinkNode<T> *q = head;
-        for(int i=0;i<pos-1;i++)
+        for (int i = 0; i < pos - 1; i++)
             q = q->next;
 
         temp = q->next;
@@ -278,7 +237,7 @@ bool CircularLinkList<T>::pop_pos(int pos) {
 //修改循环链表头数据
 template<class T>
 void CircularLinkList<T>::change_first(T p) {
-    if(isEmpty())    //空链表
+    if (isEmpty())    //空链表
         return;
     head->next->data = p;
 }
@@ -286,7 +245,7 @@ void CircularLinkList<T>::change_first(T p) {
 //修改循环链表尾数据
 template<class T>
 void CircularLinkList<T>::change_last(T p) {
-    if(isEmpty())    //空链表
+    if (isEmpty())    //空链表
         return;
     rear->data = p;
 }
@@ -294,12 +253,12 @@ void CircularLinkList<T>::change_last(T p) {
 //修改循环链表中第pos个数据
 template<class T>
 bool CircularLinkList<T>::change_pos(int pos, T p) {
-    if (pos <= 0 || pos > length())   //不存在指定位置
+        if (pos <= 0 || pos > length())   //不存在指定位置
         return false;
 
     //循环得到待修改的结点
     LinkNode<T> *q = head;
-    for(int i=0;i<pos;i++)
+    for (int i = 0; i < pos; i++)
         q = q->next;
 
     q->data = p;
@@ -310,7 +269,7 @@ bool CircularLinkList<T>::change_pos(int pos, T p) {
 //得到循环链表头结点
 template<class T>
 bool CircularLinkList<T>::get_first_node(LinkNode<T> *&p) {
-    if(isEmpty())    //空链表
+    if (isEmpty())    //空链表
         return false;
     p = head->next;
     return true;
@@ -319,7 +278,7 @@ bool CircularLinkList<T>::get_first_node(LinkNode<T> *&p) {
 //得到循环链表尾结点
 template<class T>
 bool CircularLinkList<T>::get_last_node(LinkNode<T> *&p) {
-    if(isEmpty())    //空链表
+    if (isEmpty())    //空链表
         return false;
     p = rear;
     return true;
@@ -333,7 +292,7 @@ bool CircularLinkList<T>::get_pos_node(int pos, LinkNode<T> *&p) {
 
     //循环得到第pos个结点
     LinkNode<T> *q = head;
-    for(int i=0;i<pos;i++)
+    for (int i = 0; i < pos; i++)
         q = q->next;
     p = q;
 
@@ -344,8 +303,7 @@ bool CircularLinkList<T>::get_pos_node(int pos, LinkNode<T> *&p) {
 template<class T>
 bool CircularLinkList<T>::get_first_data(T &p) {
     LinkNode<T> *temp;
-    if(get_first_node(temp))
-    {
+    if (get_first_node(temp)) {
         p = temp->data;
         return true;
     }
@@ -356,8 +314,7 @@ bool CircularLinkList<T>::get_first_data(T &p) {
 template<class T>
 bool CircularLinkList<T>::get_last_data(T &p) {
     LinkNode<T> *temp;
-    if(get_last_node(temp))
-    {
+    if (get_last_node(temp)) {
         p = temp->data;
         return true;
     }
@@ -368,8 +325,7 @@ bool CircularLinkList<T>::get_last_data(T &p) {
 template<class T>
 bool CircularLinkList<T>::get_pos_data(int pos, T &p) {
     LinkNode<T> *temp;
-    if(get_pos_node(pos,temp))
-    {
+    if (get_pos_node(pos, temp)) {
         p = temp->data;
         return true;
     }
@@ -379,18 +335,69 @@ bool CircularLinkList<T>::get_pos_data(int pos, T &p) {
 //返回循环链表中p相同的第一个元素的下标pos，若不存在则返回-1
 template<class T>
 int CircularLinkList<T>::search(T p) {
-    if(isEmpty())      //空链表
+    if (isEmpty())      //空链表
         return -1;
     int pos = 0;       //记录下标
     LinkNode<T> *q = head->next;
-    while(q != rear)
-    {
-        if(q->data == p)
+    while (q != rear) {
+        if (q->data == p)
             return pos;
         q = q->next;
         pos++;
     }
     return -1;
+}
+
+//判断循环链表是否为空
+template<class T>
+bool CircularLinkList<T>::isEmpty() {
+    return head->next == head;
+}
+
+//返回循环链表的长度
+template<class T>
+int CircularLinkList<T>::length() {
+    int len = 0;
+    if (isEmpty())           //空链表时返回0
+        return 0;
+
+    LinkNode<T> *p = head;
+    while (p != rear) {
+        len++;
+        p = p->next;
+    }
+    return len;
+}
+
+//打印循环链表
+template<class T>
+void CircularLinkList<T>::print() {
+    if (isEmpty())
+        return;
+    LinkNode<T> *p = head->next;
+    while (p != rear) {
+        cout << p->data << " ---> ";
+        p = p->next;
+    }
+    cout << p->data << endl;
+}
+
+//清空循环链表
+template<class T>
+void CircularLinkList<T>::clear() {
+    if (isEmpty())
+        return;
+
+    LinkNode<T> *temp;
+
+    while (head->next != rear) {
+        temp = head->next;
+        head->next = temp->next;
+        delete temp;
+    }
+    delete head->next;
+    head->next = head;
+    rear = head;
 }
 
 #endif //MY_DS_CIRCULARLINKLIST_H
