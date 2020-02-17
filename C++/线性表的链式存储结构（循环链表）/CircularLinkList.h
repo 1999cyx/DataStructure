@@ -38,11 +38,6 @@ public:
         next = p->next;
         return *this;
     }
-
-    T s()
-    {
-        return data;
-    }
 };
 
 template<class T>
