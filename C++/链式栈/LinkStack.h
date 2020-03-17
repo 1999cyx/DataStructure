@@ -57,7 +57,7 @@ public:
     void clear();                             //清空
 };
 
-//初始化单链表
+//构造函数
 template<class T>
 inline LinkStack<T>::LinkStack() {
     head = new LinkNode<T>();

@@ -58,7 +58,7 @@ void Realization(int sel) {
             if (myStack.top(data))
                 cout << "栈顶元素为：" << data << endl;
             else
-                cout << "栈为空，栈顶元素" << endl;
+                cout << "栈为空，无栈顶元素" << endl;
             break;
         case 4:
             cout << "\t计算栈的长度" << endl;
