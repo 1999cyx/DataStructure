@@ -38,7 +38,7 @@ void BinaryConversion(int num, int transform) {
 
     //输出结果
     int len = Binary.size();
-    for (int i = 0; i < len && Binary.empty(); i++) {
+    for (int i = 0; i < len && !Binary.empty(); i++) {
         int p = Binary.top();
         if (p < 10)
             cout << p;
@@ -65,13 +65,13 @@ bool ParenthesisMatching(char c, string str) {
         if (str[i] == c)
             Matching.push(c);
         if (str[i] == c0) {
-            if (!Matching.empty())
+            if (Matching.empty())
                 return false;
             else
                 Matching.pop();
         }
     }
-    return !Matching.empty();
+    return Matching.empty();
 }
 
 //优先级判断
